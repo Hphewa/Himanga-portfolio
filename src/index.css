@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Soft paper-like background */
+body {
+  background:
+    radial-gradient(1200px 500px at 20% 0%, rgba(255, 255, 255, 0.9), rgba(248, 245, 239, 0.9)),
+    radial-gradient(800px 400px at 80% 10%, rgba(255, 255, 255, 0.7), rgba(248, 245, 239, 0.7)),
+    linear-gradient(180deg, #f8f5ef 0%, #f3efe6 100%);
+}
+
+
+html, body, #root {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
