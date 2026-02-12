@@ -35,77 +35,127 @@ export default function SceneHero({ onOpen }) {
 
   const laptopScreenArea = { top: 47, left: 39, w: 30, h: 22 };
 
+  const leftCircleCards = [
+    { key: "about", label: "About" },
+    { key: "projects", label: "Projects" },
+    { key: "skills", label: "Skills" },
+  ];
+
+  const rightCircleCards = [
+    { key: "achievements", label: "Achievements" },
+    { key: "contact", label: "Contact" },
+    { key: "cv", label: "CV" },
+  ];
+
+  // ✅ circle size + circle text size (6 buttons)
+  const circleBtnClass =
+    "flex h-[72px] w-[72px] items-center justify-center rounded-full border border-teal-200/60 bg-teal-500/80 text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_16px_35px_rgba(0,0,0,0.55)] backdrop-blur-md transition hover:-translate-y-1 hover:bg-teal-300 hover:text-teal-900 hover:border-teal-200";
+
   return (
-    <section className="px-4 py-8">
-      <div className="mx-auto w-full max-w-6xl">
-        {/* premium frame */}
-        <div className="rounded-[28px] p-[1px] bg-gradient-to-r from-amber-300/35 via-white/40 to-slate-300/35 shadow-[0_30px_120px_rgba(15,23,42,0.14)]">
-          <div className="relative overflow-hidden rounded-[26px] bg-white ring-1 ring-black/10">
-            <div className="relative h-[600px] sm:h-[700px] md:h-[750px] w-full">
-              <img
-                src={deskHero}
-                alt="Hero scene"
-                className="h-full w-full object-cover block"
-                draggable="false"
-              />
+    <section className="relative min-h-screen overflow-hidden">
+      {/* full-screen background image */}
+      <div className="absolute inset-0">
+        <img
+          src={deskHero}
+          alt="Hero scene"
+          className="block h-full w-full object-cover"
+          draggable="false"
+        />
+        {/* subtle dark vignette for readability */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-black/0 to-black/45" />
+      </div>
 
-              {/* soft vignette */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/10" />
+      {/* content overlay */}
+      <div className="relative z-10 flex h-full flex-col">
+        <div className="mx-auto flex h-full w-full max-w-6xl flex-col px-4 pt-20 pb-10">
+          {/* top text strip + side buttons */}
+          <div className="mb-8 flex flex-col gap-4 text-white sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.18em] text-amber-200 uppercase">
+                Portfolio of Himanga Hewagamage
+              </p>
 
-              {/* Laptop hover intro bubble */}
-              <div
-                className="absolute z-20"
-                style={{
-                  top: `${laptopScreenArea.top}%`,
-                  left: `${laptopScreenArea.left}%`,
-                  width: `${laptopScreenArea.w}%`,
-                  height: `${laptopScreenArea.h}%`,
-                }}
-                onMouseEnter={() => setShowIntro(true)}
-                onMouseLeave={() => setShowIntro(false)}
-              >
-                <div className="h-full w-full rounded-xl" />
+              <div className="mt-3 flex gap-4">
+                {/* left vertical circle buttons before hero text */}
+                <div className="flex flex-col gap-3">
+                  {leftCircleCards.map((card) => (
+                    <button
+                      key={card.key}
+                      type="button"
+                      onClick={() => onOpen(card.key)}
+                      className={circleBtnClass}
+                    >
+                      <span>{card.label}</span>
+                    </button>
+                  ))}
+                </div>
 
-                <div
-                  className={`pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-[110%] w-[360px] max-w-[92vw] transition-all duration-200
-                  ${showIntro ? "opacity-100 translate-y-[-120%]" : "opacity-0 translate-y-[-105%]"}`}
-                >
-                  <div className="rounded-2xl border border-black/10 bg-white/80 backdrop-blur px-4 py-3 text-slate-900 shadow-[0_20px_60px_rgba(15,23,42,0.18)]">
-                    <p className="text-sm leading-relaxed">
-                      Hi, I’m <b>Himanga</b> 👋 Welcome to my portfolio!
-                      <br />
-                      Click the wall labels (About, Projects, Skills…) to explore.
-                    </p>
-                  </div>
-
-                  <div className="mx-auto h-0 w-0 border-l-[10px] border-r-[10px] border-t-[12px] border-l-transparent border-r-transparent border-t-white/80" />
+                {/* main hero text */}
+                <div>
+                  <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+                    Undergraduate Software Engineering Student.
+                  </h1>
+                  <p className="mt-2 max-w-xl text-sm text-slate-100/90">
+                    I love designing calm, user-friendly interfaces and building clean, maintainable
+                    code behind them. This portfolio highlights who I am, what I build, and how you
+                    can reach me.
+                  </p>
                 </div>
               </div>
+            </div>
 
-              {/* Hotspots */}
-              {hotspots.map((hs) => (
-                <button
-                  key={hs.key}
-                  type="button"
-                  onClick={() => onOpen(hs.key)}
-                  aria-label={hs.label}
-                  title={hs.label}
-                  className={`z-10 ${base} ${hoverGlow} ${debugClass}`}
-                  style={{
-                    top: `${hs.top}%`,
-                    left: `${hs.left}%`,
-                    width: `${hs.w}%`,
-                    height: `${hs.h}%`,
-                  }}
-                />
-              ))}
+            {/* right side: availability pill + vertical buttons */}
+            <div className="flex flex-col items-end gap-3">
+              {/* ✅ ONLY THIS PILL SIZE INCREASED */}
+              <div className="inline-flex items-center gap-2 rounded-2xl border border-white/20 bg-black/35 px-4 py-2.5 text-sm text-white shadow-sm backdrop-blur">
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-600 shadow-[0_0_0_4px_rgba(52,211,153,0.6)]" />
+                <span>Available for internships</span>
+              </div>
+
+              <div className="flex flex-col items-end gap-3">
+                {rightCircleCards.map((card) => (
+                  <button
+                    key={card.key}
+                    type="button"
+                    onClick={() => onOpen(card.key)}
+                    className={circleBtnClass}
+                  >
+                    {card.key === "achievements" ? (
+                      <span className="px-1 text-[10px] leading-tight">
+                        Achieve
+                        <br />
+                        ments
+                      </span>
+                    ) : (
+                      <span>{card.label}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <p className="mt-4 text-center text-sm text-slate-500">
-          Click the wall labels or navbar items to open sections ✨
-        </p>
+          {/* interactive desk area */}
+          <div className="relative flex-1">
+            {/* Hotspots over the desk image */}
+            {hotspots.map((hs) => (
+              <button
+                key={hs.key}
+                type="button"
+                onClick={() => onOpen(hs.key)}
+                aria-label={hs.label}
+                title={hs.label}
+                className={`z-10 ${base} ${hoverGlow} ${debugClass}`}
+                style={{
+                  top: `${hs.top}%`,
+                  left: `${hs.left}%`,
+                  width: `${hs.w}%`,
+                  height: `${hs.h}%`,
+                }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
